@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buy Textbook</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showPaymentSuccess() {
+            event.preventDefault(); // Prevent form submission
+            const form = document.querySelector('form');
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Payment Successful',
+                    text: 'Thank you for your purchase!'
+                }).then(() => {
+                    window.location.href = '/';
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Buy Textbook</h1>
+    <h2>{{ book_title }}</h2>
+    <h3>By {{ book_author }}</h3>
+    <form method="POST" action="/api/textbook/buy/{{ book_id }}">
+        <p>Please provide your payment information.</p>
+        <label>Name:</label>
+        <input type="text" name="customer_name" required placeholder="Enter your name"><br>
+        <label>Address:</label>
+        <input type="text" name="address" required placeholder="Enter your address"><br>
+        <label>Phone Number:</label>
+        <input type="tel" name="phone_number" required placeholder="Enter your phone number"><br>
+        <label>Payment Method:</label>
+        <select name="payment_method" required>
+            <option value="">Select payment method</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="PayPal">PayPal</option>
+        </select><br>
+        <input type="submit" value="Submit" onclick="showPaymentSuccess();">
+    </form>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Book</title>
+</head>
+<body>
+    <h1>Search Book</h1>
+    <form method="POST" action="/api/textbook/search">
+        <label>Keyword:</label>
+        <input type="text" name="keyword" required><br>
+        <input type="submit" value="Search">
+    </form>
+    <h2>{% if keyword %}Search Results:{% endif %}</h2>
+    <ul>
+        {% for book in books %}
+        <li><a href="/api/textbook/async_view/{{ book[0] }}">{{ book[1] }}</a> by {{ book[2] }} ({{ book[3] }})</li>
+<!--        <li><a href="/api/textbook/sync_view/{{ book[0] }}">{{ book[1] }}</a> by {{ book[2] }} ({{ book[3] }})</li>-->
+        {% endfor %}
+    </ul>
+
+    {% if total_pages > 1 %}
+    <div class="pagination">
+        {% for page in range(1, total_pages + 1) %}
+            {% if page == current_page %}
+                <a href="{{ url_for('search_book', page=page, keyword_cache=keyword) }}" class="active">{{ page }}</a>
+            {% else %}
+                <a href="{{ url_for('search_book', page=page, keyword_cache=keyword) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Textbook</title>
+    <style>
+        .textbook-info {
+            margin-bottom: 20px;
+        }
+        .textbook-info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>View Textbook</h1>
+
+    <div class="textbook-info">
+        <label>ID:</label>
+        <span>{{ book[0] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <label>Title:</label>
+        <span>{{ book[1] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <label>Author:</label>
+        <span>{{ book[2] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <label>Year:</label>
+        <span>{{ book[3] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <label>Details:</label>
+        <span>{{ book[4] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <label>Total sales:</label>
+        <span>{{ sale[0] }}</span>
+    </div>
+
+    <div class="textbook-info">
+        <a href="/api/textbook/buy/{{ book[0] }}">Click me to purchase!</a>
+    </div>
+</body>
+</html>
