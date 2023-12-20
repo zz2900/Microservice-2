@@ -3,9 +3,11 @@ import random
 import uuid
 
 from flask import Flask, render_template, request, redirect, jsonify
+from flask_graphql import GraphQLView
 
-from dbconnector2 import get_db_conn, close_conn, init_db, mock_data
+from dbconnector import get_db_conn, close_conn, init_db, mock_data
 from resources.book_resource import TextbookResource
+from resources.graphql_schema import schema
 
 app = Flask(__name__)
 PER_PAGE = 5
@@ -156,6 +158,23 @@ def get_book_sale_json(id):
     close_conn(conn, temp_db_path)
     return jsonify({'sale': sale})
 
+## use graphql to search books
+app.add_url_rule('/api/textbook/graphql_search', view_func=GraphQLView.as_view(
+    'graphql',
+    schema=schema,
+    graphiql=True,
+))
+
+# query example
+# {
+#   books(title: "d") {
+#     id
+#     title
+#     author
+#   	year
+#     details
+#   }
+# }
 
 if __name__ == '__main__':
     init_db()
